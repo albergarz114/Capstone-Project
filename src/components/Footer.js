@@ -1,15 +1,17 @@
 import React from "react";
 import logo from "../images/Logo .svg";
+import { useTheme } from "./ThemeContext";
 // I deleted node_modules-> Please use: 'npm install' on your terminal 
 const Footer = () => {
+    const { isDarkMode } = useTheme();
     return(
-        <footer>
+        <footer style={{backgroundColor: isDarkMode ? "black": "white"}}>
             <section>
-                <div className="company-info">
+                <div className="company-info" style={{backgroundColor: isDarkMode ? "black": "white"}}>
                     <img src={logo} alt=""/>
                     <p>We are a family owned Mediterranean restaurant, focused on seafood.</p>
                 </div>
-                <div>
+                <div style={{backgroundColor: isDarkMode ? "black": "white"}}>
                     <h3>
                         Important Links
                     </h3>

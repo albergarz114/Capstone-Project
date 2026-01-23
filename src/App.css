@@ -300,8 +300,10 @@ footer ul li{
   }
 
   footer section{
-    padding: 10px 8%;
-    flex-direction: column;
+    padding: 10px 13%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
   }
   .company-info p{
     width: 100%;

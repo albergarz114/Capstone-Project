@@ -1,8 +1,12 @@
 import React from "react";
 import recipes from "../recipes";
 import Swal from "sweetalert2";
+import { useTheme } from "./ThemeContext";
 // I deleted node_modules-> Please use: 'npm install' on your terminal 
 const Menu = () => {
+
+    const { isDarkMode } = useTheme();
+    
     const handleOrder = (id) => {
         console.log(id, "id is clicked");
         Swal.fire({
@@ -24,7 +28,7 @@ const Menu = () => {
           });
     }
         return (
-        <div className="menu-container">
+        <div className="menu-container" style={{backgroundColor: isDarkMode ? "black" : "white"}}>
             <div className="menu-header">
                 <h2>This weeks specials!</h2>
                 <button>Order Menu</button>

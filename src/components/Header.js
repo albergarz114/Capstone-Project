@@ -1,10 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import bannerImg from '../images/restauranfood.jpg'
+import { useTheme } from "./ThemeContext";
 // I deleted node_modules-> Please use: 'npm install' on your terminal 
 const Header = () => {
+    const { isDarkMode } = useTheme();
     return (
-        <header className="header">
+        <header className="header" style={{backgroundColor: isDarkMode ? "black" : "white"}}>
             <section>
                 <div className="banner">
                     <h2>Little Lemon</h2>

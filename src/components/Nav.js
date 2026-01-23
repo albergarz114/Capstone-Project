@@ -1,16 +1,20 @@
 import React, { useState } from "react";
-import logo from "../images/Logo .svg"
+import logo from "../images/Logo .svg";
+import { Link } from "react-router-dom";
+import { useTheme } from "./ThemeContext";
 // I deleted node_modules-> Please use: 'npm install' on your terminal 
 const Nav = () => {
 
+    const { isDarkMode } = useTheme();
     const [menuOpen, setMenuOpen] = useState(false);
 
     const toggleMenu = () =>{
-        setMenuOpen(menuOpen);
+        setMenuOpen(!menuOpen);
     }
 
     return (
-        <nav className={`navbar ${menuOpen ? "open" : ""}`}>
+        <nav className={`navbar ${menuOpen ? "open" : ""}`}
+        style={{backgroundColor: isDarkMode ? "black" : "white"}}>
             <a href='/' className="logo">
             <img src={logo} alt="logo"/>
             </a>
@@ -29,7 +33,7 @@ const Nav = () => {
                     <a href='/'>About</a>
                 </li>
                 <li>
-                    <a href='/'>Services</a>
+                    <Link to="/services">Services</Link>
                 </li>
                 <li>
                     <a href='/'>Menu</a>
