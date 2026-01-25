@@ -7,7 +7,7 @@ import Main from './components/Main';
 import Menu from './components/Menu';
 import Footer from './components/Footer';
 import { useTheme } from './components/ThemeContext';
-import Service from './components/Service';
+
 
 // I deleted node_modules-> Please use: 'npm install' on your terminal 
 function App() {
@@ -18,7 +18,6 @@ function App() {
     {/* <Header/>
     <BookingForm/> */}
     <Main/>
-    <Service/>
     <Menu/>
     <Footer/>
     </div>

@@ -5,7 +5,7 @@ import { useTheme } from "./ThemeContext";
 // I deleted node_modules-> Please use: 'npm install' on your terminal 
 const Menu = () => {
 
-    const { isDarkMode } = useTheme();
+    const { isDarkMode, isGerman } = useTheme();
     
     const handleOrder = (id) => {
         console.log(id, "id is clicked");
@@ -30,8 +30,8 @@ const Menu = () => {
         return (
         <div className="menu-container" style={{backgroundColor: isDarkMode ? "black" : "white"}}>
             <div className="menu-header">
-                <h2>This weeks specials!</h2>
-                <button>Order Menu</button>
+                <h2>{ isGerman ? "Dieses Woches Spezial!" : "This weeks specials!"}</h2>
+                <button>{isGerman ? "Menu Bestellen" : "Order Menu"}</button>
             </div>
 
             <div className="cards">
@@ -44,7 +44,7 @@ const Menu = () => {
                                 <p>{recipe.price}</p>
                             </div>
                             <p>{recipe.description}</p>
-                            <button className="orderBtn" onClick={() => handleOrder(recipe.id)}>Order Now</button>
+                            <button className="orderBtn" onClick={() => handleOrder(recipe.id)}>{isGerman ? "Jetzt Bestellen" : "Order Now"}</button>
                         </div>
                     </div>)
                 }
