@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useTheme } from "./ThemeContext";
 
-
+// NOTE: PLEASE USE BOTH SEPERATE TERMINALS FOR FRONTEND AND BACKEND. IF ONE IS OPEN & THE OTHER IS NOT, THE BOOKING PROCESS WILL FAIL!!!
 // I deleted node_modules-> Please use: 'npm install' on your terminal 
 const BookingForm = (props) => { 
     const [firstname, setName] = useState("");
@@ -10,7 +10,7 @@ const BookingForm = (props) => {
     const [guests, setGuests] = useState("");
     const [occasion, setOccasion] = useState("");
 
-    const { isDarkMode, isGerman } = useTheme();
+    const { isGerman } = useTheme();
 
     // const handleSubmit = (e) => {
     //     e.preventDefault();
@@ -25,13 +25,14 @@ const BookingForm = (props) => {
         alert(isGerman ? "Bitte wählen Sie ein Datum." : "Please select a date.");
         return;
     }
+    
     const booking_time = times.split(' ')[0];
     
     // Prepare data to match backend
     const bookingData = {
         first_name: firstname || "Guest",
         booking_date: date,
-        booking_time: times,
+        booking_time: booking_time,
         number_of_guests: parseInt(guests) || 1,
         occasion: occasion === "Select an option" ? "birthday" : occasion
     };
