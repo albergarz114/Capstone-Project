@@ -1,0 +1,24 @@
+name: Little Lemon CI/CD
+on:
+  push:
+    branches: [ main ] # Runs every time you push to the main branch
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest # The robot's operating system
+
+    steps:
+    - uses: actions/checkout@v3 # 1. Robot downloads your code
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v3 # 2. Robot installs Node.js
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      run: npm install # 3. Robot installs your project packages
+
+    - name: Run Tests
+      run: npm test -- --watchAll=false # 4. Robot runs your tests!

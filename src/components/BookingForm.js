@@ -80,7 +80,7 @@ const BookingForm = (props) => {
 
     return(
         <header>
-            <h1>{isGerman ? "Jezt Bestellen" : "Book Now"}</h1>
+            <h1>{isGerman ? "Jetzt Bestellen" : "Book Now"}</h1>
             <section>
                 <form onSubmit={handleSubmit}>
                     <fieldset>
@@ -117,7 +117,7 @@ const BookingForm = (props) => {
                         </div>
 
                         <div className="btnReceive">
-                            <input aria-label="On Click" type="submit" value={isGerman ? "Reservirungen" : "Make Your Reservation"}/>
+                            <input aria-label="On Click" type="submit" value={isGerman ? "Reservierung vornehmen" : "Make Your Reservation"} disabled={!firstname}/>
                         </div>
                     </fieldset>
                 </form>

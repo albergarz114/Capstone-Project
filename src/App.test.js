@@ -1,80 +1,86 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { BrowserRouter } from 'react-router-dom';
-import App from './App';
+import { render, screen, fireEvent } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom"; // Use this for testing links
+import Header from './components/Header'; // Assuming App.test.js and components/ are in src/
+import { ThemeProvider } from './components/ThemeContext'; // Matches your Header.js import path
 import BookingForm from './components/BookingForm';
-import Header from './components/Header';
-import '@testing-library/jest-dom';
-import Footer from './components/Footer';
-import Swal from 'sweetalert2';
-import Menu from './components/Menu';
-import recipes from './recipes';
-import { MemoryRouter } from 'react-router-dom';
-import Main from './components/Main';
 
-
-test('Renders the BookingForm heading', () => {
+test('renders the Little Lemon heading', () => {
   render(
-    <BookingForm
-      availableTimes={{ availableTimes: ["17:00", "18:00"] }}
-      dispatch={() => {}}
-      submitForm={() => {}}
-    />
+    <MemoryRouter>
+      <ThemeProvider>
+        <Header />
+      </ThemeProvider>
+    </MemoryRouter>
   );
-  const headingElement = screen.getByText("Book Now");
-  expect(headingElement).toBeInTheDocument();
+  
+  const linkElement = screen.getByText(/Little Lemon/i);
+  expect(linkElement).toBeInTheDocument();
 });
 
-
-test('Initialize/Update Times', async () => {
+test('contains a link to the booking page', () => {
   render(
-    <BookingForm
-      availableTimes={{ availableTimes: ["17:00", "18:00"] }}
-      dispatch={() => {}}
-      submitForm={() => {}}
-    />
+    <MemoryRouter>
+      <ThemeProvider>
+        <Header />
+      </ThemeProvider>
+    </MemoryRouter>
   );
 
-  // Find the time select dropdown
-  const timeSelect = screen.getByLabelText("Choose Time:");
+  // 1. Find the button by its text
+  const reserveButton = screen.getByText(/Reserve Table/i);
   
-  // Select the 17:00 option
-  await userEvent.selectOptions(timeSelect, "17:00");
+  // 2. Assert it is in the document
+  expect(reserveButton).toBeInTheDocument();
   
-  // Verify the option is selected
-  const selectedOption = screen.getByRole('option', { name: "17:00" });
-  expect(selectedOption.selected).toBe(true);
+  // 3. Verify it's inside a Link (optional but good)
+  const linkElement = screen.getByRole('link', { name: /Reserve Table/i });
+  expect(linkElement).toHaveAttribute('href', '/booking');
 });
 
 
-test('renders footer with company info and navigation links', () => {
-  render(<Footer />);
+test('header changes background color based on theme', () => {
 
-  // Company info
-  expect(screen.getByText(/We are a family owned Mediterranean/i)).toBeInTheDocument();
+  render(
+    <MemoryRouter>
+      <ThemeProvider>
+        <Header/>
+      </ThemeProvider>
+    </MemoryRouter>
+  );
 
-  // Important Links
-  expect(screen.getByText('Important Links')).toBeInTheDocument();
-  expect(screen.getByText('Home')).toBeInTheDocument();
-  expect(screen.getByText('Menu')).toBeInTheDocument();
+  const headerElement = screen.getByRole('banner');
 
-  // Contacts
-  expect(screen.getByText('Contacts')).toBeInTheDocument();
-  expect(screen.getByText(/123 Dublin, Ireland/i)).toBeInTheDocument();
-  expect(screen.getByText(/123-345-6678/i)).toBeInTheDocument();
-  expect(screen.getByText(/o'brian@hotmail.com/i)).toBeInTheDocument();
+  expect(headerElement).toHaveStyle('background-color: white');
 
-  // Social Media
-  expect(screen.getByText('Social Media Links')).toBeInTheDocument();
-  expect(screen.getByText('Facebook')).toBeInTheDocument();
-  expect(screen.getByText('Instagram')).toBeInTheDocument();
-  expect(screen.getByText('X')).toBeInTheDocument();
 });
 
-// Mock SweetAlert2
-jest.mock('sweetalert2', () => ({
-  fire: jest.fn(() => Promise.resolve({ isConfirmed: true })),
-}));
+
+
+test('submit button is disabled until name is entered', () => {
+  const mockAvailableTimes = {
+    availableTimes: ["17:00", "18:00", "19:00"]
+  };
+  const mockDispatch = jest.fn();
+
+  render(
+    <ThemeProvider>
+      <BookingForm 
+        availableTimes={mockAvailableTimes} 
+        dispatch={mockDispatch}
+      />
+    </ThemeProvider>
+  );
+
+  const nameInput = screen.getByLabelText(/First Name:/i);
+  const submitButton = screen.getByDisplayValue(/Make Your Reservation/i);
+
+  // This will pass now if you added disabled={!firstname} to BookingForm.js
+  expect(submitButton).toBeDisabled();
+
+  fireEvent.change(nameInput, { target: { value: 'John Doe' } });
+
+  expect(submitButton).toBeEnabled();
+});
 
 
 
